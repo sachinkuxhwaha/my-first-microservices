@@ -10,4 +10,6 @@ const validateRegistrationSchema = (data) => {
   return schema.validate(data);
 };
 
-module.exports = { validateRegistrationSchema };
+module.exports = {
+  validateRegistration: validateRegistrationSchema,
+};

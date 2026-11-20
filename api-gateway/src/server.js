@@ -1,13 +1,13 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
 const Redis = require("ioredis");
 const helmet = require("helmet");
-const { rateLimit } = require("express-rate-limit");
-const { RedisStore } = require("rate-limit-redis");
+const cors = require("cors");
 const logger = require("./utils/logger.js");
-const errorHandler = require("./middleware/errorHandler.js");
+const { rateLimit } = require("express-rate-limit");
 const proxy = require("express-http-proxy");
+const { RedisStore } = require("rate-limit-redis");
+const errorHandler = require("./middleware/errorHandler.js");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -57,8 +57,6 @@ const proxyOptions = {
     });
   },
 };
-
-// Setting up proxies for our identity service
 
 // Setting up proxy for the Identity Service
 app.use(

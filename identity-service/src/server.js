@@ -18,7 +18,6 @@ const PORT = process.env.PORT || 3001;
 
 // 1. REDIS CONNECTION
 
-// Connect to Redis using the URL stored in the .env file.
 // Redis is used to store request counts for rate limiting.
 // It helps track how many requests each IP address makes.
 const redisClient = new Redis(process.env.REDIS_URL);
@@ -117,9 +116,7 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     await connectDB();
-    // Check whether Redis is available.
     await redisClient.ping();
-
     app.listen(PORT, () => {
       logger.info(`Identity service running on port ${PORT}`);
     });
@@ -132,7 +129,6 @@ const startServer = async () => {
 // 9. HANDLE UNHANDLED PROMISE REJECTIONS
 
 // Listen for Promise rejections that were not handled
-// using .catch() or an appropriate try/catch block.
 process.on("unhandledRejection", (reason, promise) => {
   logger.error("Unhandled Promise Rejection", {
     promise,

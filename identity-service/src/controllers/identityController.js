@@ -97,7 +97,8 @@ const loginUser = async (req, res) => {
 
     const { accessToken, refreshToken } = await generateToken(user);
 
-    res.json({
+    return res.status(200).json({
+      success: true,
       accessToken,
       refreshToken,
       userId: user._id,
@@ -179,7 +180,7 @@ const logoutUser = async (req, res) => {
     }
 
     await RefreshToken.deleteOne({ token: refreshToken });
-    logger.info(`Refresh Token deleted for user: ${user._id}`);
+    logger.info("Refresh Token deleted");
 
     return res.status(200).json({
       success: true,

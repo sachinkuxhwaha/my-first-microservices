@@ -13,11 +13,16 @@ const createProxyOptions = (serviceName) => ({
     });
   },
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-    proxyReqOpts.headers["Content-Type"] = "application/json";
+    const contentType = srcReq.headers["content-type"] || "";
+    if (!contentType.startsWith("multipart/form-data")) {
+      proxyReqOpts.headers["Content-Type"] = "application/json";
+    }
+
     delete proxyReqOpts.headers["x-user-id"];
     if (srcReq.user && srcReq.user.userId) {
       proxyReqOpts.headers["x-user-id"] = srcReq.user.userId;
     }
+
     return proxyReqOpts;
   },
   userResDecorator: (proxyRes, proxyResData) => {
@@ -38,4 +43,9 @@ const postProxy = proxy(
   createProxyOptions("Post service"),
 );
 
-module.exports = { identityProxy, postProxy };
+const mediaProxy = proxy(process.env.MEDIA_SERVICE_URL, {
+  ...createProxyOptions("Media service"),
+  parseReqBody: false, // Required so file uploads stream properly
+});
+
+module.exports = { identityProxy, postProxy, mediaProxy };

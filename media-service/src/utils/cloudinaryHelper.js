@@ -3,7 +3,7 @@ const logger = require("./logger.js");
 
 const uploadMediaToCloudinary = (file) => {
   return new Promise((resolve, reject) => {
-    const uploadStram = cloudinary.uploader.upload_stream(
+    const uploadStream = cloudinary.uploader.upload_stream(
       {
         resource_type: "auto",
       },
